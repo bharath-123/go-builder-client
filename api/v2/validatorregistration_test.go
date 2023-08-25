@@ -42,86 +42,86 @@ func TestValidatorRegistrationJSON(t *testing.T) {
 
 		{
 			name:  "FeeRecipientMissing",
-			input: []byte(`{"gas_limit":"100","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"full_block"}`),
+			input: []byte(`{"gas_limit":"100","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"0"}`),
 			err:   "fee recipient missing",
 		},
 		{
 			name:  "FeeRecipientWrongType",
-			input: []byte(`{"fee_recipient":true,"gas_limit":"100","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":true,"gas_limit":"100","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"0"}`),
 			err:   "invalid JSON: json: cannot unmarshal bool into Go struct field validatorRegistrationJSON.fee_recipient of type string",
 		},
 		{
 			name:  "FeeRecipientInvalid",
-			input: []byte(`{"fee_recipient":"invalid","gas_limit":"100","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":"invalid","gas_limit":"100","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"0"}`),
 			err:   "invalid value for fee recipient: encoding/hex: invalid byte: U+0069 'i'",
 		},
 
 		{
 			name:  "GasLimitMissing",
-			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"0"}`),
 			err:   "gas limit missing",
 		},
 		{
 			name:  "GasLimitWrongType",
-			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":true,"timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":true,"timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"0"}`),
 			err:   "invalid JSON: json: cannot unmarshal bool into Go struct field validatorRegistrationJSON.gas_limit of type string",
 		},
 		{
 			name:  "GasLimitInvalid",
-			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"-1","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"-1","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"0"}`),
 			err:   "invalid value for gas limit: strconv.ParseUint: parsing \"-1\": invalid syntax",
 		},
 
 		{
 			name:  "TimestampMissing",
-			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"0"}`),
 			err:   "timestamp missing",
 		},
 		{
 			name:  "TimestampWrongType",
-			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":true,"pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":true,"pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"0"}`),
 			err:   "invalid JSON: json: cannot unmarshal bool into Go struct field validatorRegistrationJSON.timestamp of type string",
 		},
 		{
 			name:  "TimestampInvalid",
-			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"invalid","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"invalid","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"0"}`),
 			err:   "invalid value for timestamp: strconv.ParseInt: parsing \"invalid\": invalid syntax",
 		},
 
 		{
 			name:  "PublicKeyMissing",
-			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","proposer_commitment":"0"}`),
 			err:   "public key missing",
 		},
 		{
 			name:  "PublicKeyWrongType",
-			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","pubkey":[true],"proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","pubkey":[true],"proposer_commitment":"0"}`),
 			err:   "invalid JSON: json: cannot unmarshal array into Go struct field validatorRegistrationJSON.pubkey of type string",
 		},
 		{
 			name:  "PublicKeyInvalid",
-			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","pubkey":"invalid","proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","pubkey":"invalid","proposer_commitment":"0"}`),
 			err:   "invalid value for public key: encoding/hex: invalid byte: U+0069 'i'",
 		},
 		{
 			name:  "PublicKeyShort",
-			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","pubkey":"0x0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","pubkey":"0x0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"0"}`),
 			err:   "incorrect length for public key",
 		},
 		{
 			name:  "PublicKeyLong",
-			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","pubkey":"0x00000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","pubkey":"0x00000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"0"}`),
 			err:   "incorrect length for public key",
 		},
 		{
-			name:  "ProposerCommitmentMissing",
-			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f"}`),
-			err:   "proposer commitment missing",
+			name:  "InvalidProposerCommitment",
+			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f", "proposer_commitment": "invalid"}`),
+			err:   "invalid value for proposer commitment: strconv.ParseUint: parsing \"invalid\": invalid syntax",
 		},
 
 		{
 			name:  "Good",
-			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"full_block"}`),
+			input: []byte(`{"fee_recipient":"0x000102030405060708090a0b0c0d0e0f10111213","gas_limit":"100","timestamp":"100","pubkey":"0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f","proposer_commitment":"0"}`),
 		},
 	}
 
@@ -150,7 +150,7 @@ func TestValidatorRegistrationYAML(t *testing.T) {
 	}{
 		{
 			name:  "Good",
-			input: []byte(`{fee_recipient: '0x000102030405060708090a0b0c0d0e0f10111213', gas_limit: 100, timestamp: 100, pubkey: '0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f', proposer_commitment: full_block}`),
+			input: []byte(`{fee_recipient: '0x000102030405060708090a0b0c0d0e0f10111213', gas_limit: 100, timestamp: 100, pubkey: '0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f', proposer_commitment: 0}`),
 		},
 	}
 

@@ -119,12 +119,8 @@ func (v *VersionedValidatorRegistration) PubKey() (phase0.BLSPubKey, error) {
 func (v *VersionedValidatorRegistration) ProposerCommitment() (spec.ProposerCommitment, error) {
 	switch v.Version {
 	case spec.BuilderVersionV2:
-		if v.V2 == nil {
-			return "", errors.New("no validator registration")
-		}
 		return v.V2.ProposerCommitment, nil
 	default:
-		return "", errors.New("unsupported version")
+		return 0, errors.New("unsupported version")
 	}
 }
-

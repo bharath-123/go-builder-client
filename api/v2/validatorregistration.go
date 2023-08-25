@@ -53,7 +53,7 @@ type validatorRegistrationYAML struct {
 	GasLimit           uint64 `yaml:"gas_limit"`
 	Timestamp          uint64 `yaml:"timestamp"`
 	Pubkey             string `yaml:"pubkey"`
-	ProposerCommitment string `yaml:"proposer_commitment"`
+	ProposerCommitment uint64 `yaml:"proposer_commitment"`
 }
 
 // MarshalJSON implements json.Marshaler.
@@ -63,7 +63,7 @@ func (v *ValidatorRegistration) MarshalJSON() ([]byte, error) {
 		GasLimit:           fmt.Sprintf("%d", v.GasLimit),
 		Timestamp:          fmt.Sprintf("%d", v.Timestamp.Unix()),
 		Pubkey:             fmt.Sprintf("%#x", v.Pubkey),
-		ProposerCommitment: string(v.ProposerCommitment),
+		ProposerCommitment: fmt.Sprintf("%d", v.ProposerCommitment),
 	})
 }
 
@@ -116,11 +116,11 @@ func (v *ValidatorRegistration) unpack(data *validatorRegistrationJSON) error {
 	}
 	copy(v.Pubkey[:], pubKey)
 
-	if data.ProposerCommitment == "" {
-		return errors.New("proposer commitment missing")
+	proposerCommitment, err := strconv.ParseUint(data.ProposerCommitment, 10, 8)
+	if err != nil {
+		return errors.Wrap(err, "invalid value for proposer commitment")
 	}
-	proposerCommitment := spec.ProposerCommitment(data.ProposerCommitment)
-	v.ProposerCommitment = proposerCommitment
+	v.ProposerCommitment = spec.ProposerCommitment(proposerCommitment)
 
 	return nil
 }
@@ -132,7 +132,7 @@ func (v *ValidatorRegistration) MarshalYAML() ([]byte, error) {
 		GasLimit:           v.GasLimit,
 		Timestamp:          uint64(v.Timestamp.Unix()),
 		Pubkey:             fmt.Sprintf("%#x", v.Pubkey),
-		ProposerCommitment: string(v.ProposerCommitment),
+		ProposerCommitment: uint64(v.ProposerCommitment),
 	}, yaml.Flow(true))
 	if err != nil {
 		return nil, err
