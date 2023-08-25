@@ -18,6 +18,7 @@ import (
 	"time"
 
 	apiv1 "github.com/attestantio/go-builder-client/api/v1"
+	apiv2 "github.com/attestantio/go-builder-client/api/v2"
 	"github.com/attestantio/go-builder-client/spec"
 	"github.com/attestantio/go-eth2-client/spec/bellatrix"
 	"github.com/attestantio/go-eth2-client/spec/phase0"
@@ -27,6 +28,7 @@ import (
 type VersionedSignedValidatorRegistration struct {
 	Version spec.BuilderVersion
 	V1      *apiv1.SignedValidatorRegistration
+	V2      *apiv2.SignedValidatorRegistration
 }
 
 // FeeRecipient returns the fee recipient of the signed validator registration.
@@ -37,6 +39,11 @@ func (v *VersionedSignedValidatorRegistration) FeeRecipient() (bellatrix.Executi
 			return bellatrix.ExecutionAddress{}, errors.New("no validator registration")
 		}
 		return v.V1.Message.FeeRecipient, nil
+	case spec.BuilderVersionV2:
+		if v.V2 == nil {
+			return bellatrix.ExecutionAddress{}, errors.New("no validator registration")
+		}
+		return v.V2.Message.FeeRecipient, nil
 	default:
 		return bellatrix.ExecutionAddress{}, errors.New("unsupported version")
 	}
@@ -50,6 +57,11 @@ func (v *VersionedSignedValidatorRegistration) GasLimit() (uint64, error) {
 			return 0, errors.New("no validator registration")
 		}
 		return v.V1.Message.GasLimit, nil
+	case spec.BuilderVersionV2:
+		if v.V2 == nil {
+			return 0, errors.New("no validator registration")
+		}
+		return v.V2.Message.GasLimit, nil
 	default:
 		return 0, errors.New("unsupported version")
 	}
@@ -63,6 +75,11 @@ func (v *VersionedSignedValidatorRegistration) Timestamp() (time.Time, error) {
 			return time.Time{}, errors.New("no validator registration")
 		}
 		return v.V1.Message.Timestamp, nil
+	case spec.BuilderVersionV2:
+		if v.V2 == nil {
+			return time.Time{}, errors.New("no validator registration")
+		}
+		return v.V2.Message.Timestamp, nil
 	default:
 		return time.Time{}, errors.New("unsupported version")
 	}
@@ -76,7 +93,25 @@ func (v *VersionedSignedValidatorRegistration) PubKey() (phase0.BLSPubKey, error
 			return phase0.BLSPubKey{}, errors.New("no validator registration")
 		}
 		return v.V1.Message.Pubkey, nil
+	case spec.BuilderVersionV2:
+		if v.V2 == nil {
+			return phase0.BLSPubKey{}, errors.New("no validator registration")
+		}
+		return v.V2.Message.Pubkey, nil
 	default:
 		return phase0.BLSPubKey{}, errors.New("unsupported version")
+	}
+}
+
+// ProposerCommitment returns the proposer commitment of the validator.
+func (v *VersionedSignedValidatorRegistration) ProposerCommitment() (spec.ProposerCommitment, error) {
+	switch v.Version {
+	case spec.BuilderVersionV2:
+		if v.V2 == nil {
+			return "", errors.New("no validator registration")
+		}
+		return v.V2.Message.ProposerCommitment, nil
+	default:
+		return "", errors.New("unsupported version")
 	}
 }
