@@ -24,10 +24,12 @@ type BuilderVersion int
 const (
 	// BuilderVersionV1 is applicable for the V1 release of the builder spec.
 	BuilderVersionV1 BuilderVersion = iota
+	BuilderVersionV2 BuilderVersion = iota
 )
 
 var responseBuilderVersionStrings = [...]string{
 	"V1",
+	"V2",
 }
 
 // MarshalJSON implements json.Marshaler.
@@ -41,6 +43,8 @@ func (d *BuilderVersion) UnmarshalJSON(input []byte) error {
 	switch strings.ToUpper(string(input)) {
 	case `"V1"`:
 		*d = BuilderVersionV1
+	case `"V2"`:
+		*d = BuilderVersionV2
 	default:
 		err = fmt.Errorf("unrecognised response version %s", string(input))
 	}
