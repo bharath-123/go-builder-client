@@ -27,6 +27,8 @@ type BidTrace struct {
 	GasLimit             uint64
 	GasUsed              uint64
 	Value                *uint256.Int `ssz-size:"32"`
+	BuilderFeeRecipient  string
+	BuilderMevRewardPct  uint64
 }
 
 // bidTraceJSON is the spec representation of the struct.
